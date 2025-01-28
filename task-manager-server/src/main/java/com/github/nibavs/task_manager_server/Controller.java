@@ -1,5 +1,7 @@
 package com.github.nibavs.task_manager_server;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,16 +10,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
+@Tag(name = "Task", description = "Operations with tasks")
 public class Controller {
     @Autowired
     private TaskRepository taskRepository;
-    //Comment
-    //Second comment
+
+    @Operation(summary = "Get all tasks")
     @GetMapping
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
 
+    @Operation(summary = "Get task by ID")
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
         return taskRepository.findById(id)
@@ -25,6 +29,7 @@ public class Controller {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Create new task")
     @PostMapping
     public Task createTask(@RequestBody Task task) {
         return taskRepository.save(task);

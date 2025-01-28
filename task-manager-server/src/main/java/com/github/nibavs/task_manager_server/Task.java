@@ -1,5 +1,6 @@
 package com.github.nibavs.task_manager_server;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -7,21 +8,28 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "task")
+@Schema(description = "Task model")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Task ID (automatically generated on the server side)", accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
 
     @NotNull
+    @Schema(description = "Task title", example = "Wash dishes")
     private String title;
 
+    @Schema(description = "Task description", example = "Dishes after dinner are dirty, needs to be cleaned up.")
     private String description;
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Schema(description = "Task status",example = "NEW", allowableValues = {"NEW", "IN_PROGRESS", "COMPLETED"})
     private TaskStatus status;
 
+
     @Column(name = "created_at", nullable = false)
+    @Schema(description = "Task creation date (automatically generated on the server side)", accessMode = Schema.AccessMode.READ_ONLY)
     private LocalDateTime createdAt;
 
     // Date of creation setting
