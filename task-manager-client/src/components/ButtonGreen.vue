@@ -1,11 +1,17 @@
 <script setup lang="ts">
 defineProps<{
   title: string
+  bgColor?: string
+  textColor?: string
+  borderColor?: string
+  borderRadius?: string
 }>()
 </script>
 
 <template>
-  <button class="button-green">
+  <button
+    class="button-green"
+    :style="{backgroundColor: bgColor || '#006838', color: textColor || '#fff', borderColor: borderColor || '#006838', borderRadius: borderRadius || '5px'}">
     {{ title }}
   </button>
 </template>
@@ -13,30 +19,30 @@ defineProps<{
 
 <style scoped>
 .button-green {
-  background-color: #006838;
-  color: #fff;
   font-size: 18px;
   font-weight: bold;
   border-radius: 5px;
   padding: 8px 15px;
-  border: 1px solid #006838;
+  border: 2px solid;
+  transition: background-color 0.2s ease;
 }
+
 .button-green:hover {
-  background-color: #045630;
-
+  filter: brightness(0.9); /* Затемнение при наведении */
 }
+
 .button-green:active {
-  background-color: #2e835c;
+  filter: brightness(0.8);
 }
+</style>
 
-/* @media (min-width: 1024px) {
+<!-- /* @media (min-width: 1024px) {
   .greetings h1,
   .greetings h3 {
     text-align: left;
   }
-} */
+} */ -->
 
-/* <template #icon>
+<!-- /* <template #icon>
       <DocumentationIcon />
-    </template> */
-</style>
+    </template> */ -->
