@@ -1,34 +1,23 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import { useCounterStore } from '@/stores/counter'
 import ButtonGreen from '@/components/ButtonGreen.vue'
-import TaskItem from '@/components/TaskItem.vue'
+import AddTaskModal from '@/components/AddTaskModal.vue'
+import TaskList from '@/components/TaskList.vue'
+import type { Task, TaskRequest } from '@/types'
 
-// Типизация для задачи (например, если задача имеет свойства id и name)
-interface Task {
-  id: number
-  title: string
-  description: string
-  status: string
-  createdAt: string
-}
-
-interface TaskRequest {
-  title: string
-  description: string
-  status: string
-}
+const API_TASKS_ENDPOINT = import.meta.env.VITE_API_TASKS_ENPOINT
 
 const tasks = ref<Task[]>([])
+const isAddModalOpen = ref(false)
 
 onMounted(() => {
-  getAllTasks();
+  getAllTasks()
 })
 
 const getAllTasks = () => {
   axios
-    .get('http://localhost:8080/tasks')
+    .get(`${API_TASKS_ENDPOINT}`)
     .then((response) => {
       tasks.value = response.data
     })
@@ -39,12 +28,12 @@ const getAllTasks = () => {
 
 const deleteTask = (taskId: number) => {
   axios
-    .delete('http://localhost:8080/tasks/' + taskId)
+    .delete(`${API_TASKS_ENDPOINT}/${taskId}`)
     .then((response) => {
       if (response.status !== 200) {
-        console.error("Error deleting task!")
+        console.error('Error deleting task!')
       } else {
-        console.log("Task has not been deleted!:", response.data)
+        console.log('Task has not been deleted!:', response.data)
         getAllTasks()
       }
     })
@@ -55,56 +44,46 @@ const deleteTask = (taskId: number) => {
 
 const addTask = (task: TaskRequest) => {
   axios
-    // THROW UP TO THE ENV VARIABLE SERVER URL/ENDPOINT
-    .post('http://localhost:8080/tasks', task)
+    .post(`${API_TASKS_ENDPOINT}`, task)
     .then((response) => {
       if (response.status !== 200) {
-        console.error("Adding task error!")
+        console.error('Adding task error!')
       } else {
-        console.log("Task has been added!:", response.data)
+        console.log('Task has been added!:', response.data)
         getAllTasks()
       }
     })
     .catch((error) => {
       console.error('Adding task error!', error)
     })
-
 }
-
-const newTask: TaskRequest = {
-  title: 'new Task',
-  description: 'desc',
-  status: 'NEW'
-}
-
 </script>
 
 <template>
   <div class="task-manager">
-    <h1>Task Manager</h1>
-    <ul class="task-list">
-      <TaskItem v-for="task in tasks" :key="task.id" :task="task" @delete="deleteTask" />
-    </ul>
+    <div class="task-manager__header">
+      <h1>Task Manager</h1>
+    </div>
+    <TaskList :tasks="tasks" @delete-task="deleteTask" />
 
-    <ButtonGreen title="Add task" @click="addTask(newTask)"/>
+    <ButtonGreen title="Add task" @click="isAddModalOpen = true" />
+
+    <AddTaskModal v-if="isAddModalOpen" @close="isAddModalOpen = false" @addTask="addTask" />
   </div>
 </template>
 
 <style>
 .task-manager {
   width: 1000px;
-  margin-top: 100px;
-  background-color: #FFFFFF;
+  margin: 50px 20px 0;
+  background-color: #ffffff;
   border-radius: 20px;
   padding: 30px 60px;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   color: black;
 }
 
-.task-list {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+.task-manager__header {
+  margin-bottom: 30px;
 }
-
 </style>
