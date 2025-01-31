@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import ButtonGreen from '@/components/ButtonGreen.vue'
 import AddTaskModal from '@/components/AddTaskModal.vue'
 import TaskList from '@/components/TaskList.vue'
 import type { Task, TaskRequest } from '@/types'
 import EditTaskModal from '@/components/EditTaskModal.vue'
 import { useEditModalStore } from '@/stores/editModal'
+import TaskManagerFooter from '@/components/TaskManagerFooter.vue'
+import TaskManagerHeader from '@/components/TaskManagerHeader.vue'
 
 const API_TASKS_ENDPOINT = import.meta.env.VITE_API_TASKS_ENPOINT
 
 const tasks = ref<Task[]>([])
-const isAddModalOpen = ref(false)
+const isAddModalOpen = ref<boolean>(false)
 const editModalStore = useEditModalStore()
 
 onMounted(() => {
@@ -57,19 +58,18 @@ const editTask = async (task: TaskRequest, taskId: number) => {
 
 <template>
   <div class="task-manager">
-    <div class="task-manager__header">
-      <h1>Task Manager</h1>
-    </div>
+    <TaskManagerHeader />
     <TaskList :tasks="tasks" @delete-task="deleteTask" />
 
-    <ButtonGreen title="Add task" @click="isAddModalOpen = true" />
-
     <AddTaskModal v-if="isAddModalOpen" @close="isAddModalOpen = false" @addTask="addTask" />
+
     <EditTaskModal
       v-if="editModalStore.isModalOpen"
       @close="editModalStore.closeModal"
       @editTask="editTask"
     />
+
+    <TaskManagerFooter v-model="isAddModalOpen" />
   </div>
 </template>
 
@@ -82,9 +82,7 @@ const editTask = async (task: TaskRequest, taskId: number) => {
   padding: 30px 60px;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   color: black;
-}
-
-.task-manager__header {
-  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
 }
 </style>
