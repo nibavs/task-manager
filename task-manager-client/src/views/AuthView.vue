@@ -1,9 +1,7 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <main>
-    <!-- <TheWelcome /> -->
+  <div>
     <h1>Auth</h1>
-  </main>
+  </div>
 </template>
