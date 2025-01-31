@@ -3,6 +3,13 @@
 ## Description
 This project is a task management application that allows users to add, delete, edit, and view tasks stored in a database. Each task has a status and a title. The application is built using Vue.js for the frontend, Spring Boot for the backend, and MySQL as the database. Additionally, Swagger has been used to generate API documentation for the backend.
 
+## UI view
+- Main window
+![UI main window](UI_1.png)
+- Edit task modal window
+![UI main window](UI_2.png)
+
+
 ## Technologies Used
 
 - **Frontend:**
