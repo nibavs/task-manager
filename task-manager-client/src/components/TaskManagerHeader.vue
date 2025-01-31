@@ -3,7 +3,7 @@
 <template>
   <div class="task-manager__header">
     <h1>Task Manager</h1>
-    <button class="signout-btn">SIGN OUT</button>
+    <!-- <button class="signout-btn">SIGN OUT</button> -->
   </div>
 </template>
 
