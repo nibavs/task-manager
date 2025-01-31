@@ -2,6 +2,7 @@
 import { defineProps } from 'vue'
 import ButtonGreen from '@/components/ButtonGreen.vue'
 import type { Task } from '@/types'
+import { useEditModalStore } from '@/stores/editModal'
 
 defineProps<{ task: Task }>()
 
@@ -40,6 +41,12 @@ const statusTextColor = (statusString: string) => {
       return '#fff'
   }
 }
+
+const openEditModal = (task: Task) => {
+  const editModalStore = useEditModalStore()
+  editModalStore.setTaskToEdit(task)
+  editModalStore.openModal()
+}
 </script>
 
 <template>
@@ -55,14 +62,24 @@ const statusTextColor = (statusString: string) => {
     >
       {{ formatStatus(task.status) }}
     </p>
-    <ButtonGreen
-      title="x"
-      bgColor="#fff"
-      textColor="#006838"
-      borderColor="#006838"
-      border-radius="50%"
-      @click="$emit('delete', task.id)"
-    />
+    <div class="button-container">
+      <ButtonGreen
+        title="Edit"
+        bgColor="#fff"
+        text-color="#006838"
+        border-color="#006838"
+        border-radius="20px"
+        @click="openEditModal(task)"
+      />
+      <ButtonGreen
+        title="x"
+        bgColor="#fff"
+        textColor="#006838"
+        borderColor="#006838"
+        border-radius="50%"
+        @click="$emit('delete', task.id)"
+      />
+    </div>
   </li>
 </template>
 
@@ -90,5 +107,11 @@ const statusTextColor = (statusString: string) => {
   min-width: 150px;
   border-radius: 30px;
   border: 1px solid;
+}
+
+.button-container {
+  width: 130px;
+  display: flex;
+  justify-content: space-between;
 }
 </style>
