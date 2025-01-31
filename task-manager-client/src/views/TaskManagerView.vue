@@ -5,57 +5,53 @@ import ButtonGreen from '@/components/ButtonGreen.vue'
 import AddTaskModal from '@/components/AddTaskModal.vue'
 import TaskList from '@/components/TaskList.vue'
 import type { Task, TaskRequest } from '@/types'
+import EditTaskModal from '@/components/EditTaskModal.vue'
+import { useEditModalStore } from '@/stores/editModal'
 
 const API_TASKS_ENDPOINT = import.meta.env.VITE_API_TASKS_ENPOINT
 
 const tasks = ref<Task[]>([])
 const isAddModalOpen = ref(false)
+const editModalStore = useEditModalStore()
 
 onMounted(() => {
   getAllTasks()
 })
 
-const getAllTasks = () => {
-  axios
-    .get(`${API_TASKS_ENDPOINT}`)
-    .then((response) => {
-      tasks.value = response.data
-    })
-    .catch((error) => {
-      console.error('Error fetching tasks:', error)
-    })
+const getAllTasks = async () => {
+  try {
+    const response = await axios.get(API_TASKS_ENDPOINT)
+    tasks.value = response.data
+  } catch (error) {
+    console.error('Error fetching tasks:', error)
+  }
 }
 
-const deleteTask = (taskId: number) => {
-  axios
-    .delete(`${API_TASKS_ENDPOINT}/${taskId}`)
-    .then((response) => {
-      if (response.status !== 200) {
-        console.error('Error deleting task!')
-      } else {
-        console.log('Task has not been deleted!:', response.data)
-        getAllTasks()
-      }
-    })
-    .catch((error) => {
-      console.error('Error deleting task:', error)
-    })
+const deleteTask = async (taskId: number) => {
+  try {
+    await axios.delete(`${API_TASKS_ENDPOINT}/${taskId}`)
+    await getAllTasks()
+  } catch (error) {
+    console.error(`Error deleting task ${taskId}:`, error)
+  }
 }
 
-const addTask = (task: TaskRequest) => {
-  axios
-    .post(`${API_TASKS_ENDPOINT}`, task)
-    .then((response) => {
-      if (response.status !== 200) {
-        console.error('Adding task error!')
-      } else {
-        console.log('Task has been added!:', response.data)
-        getAllTasks()
-      }
-    })
-    .catch((error) => {
-      console.error('Adding task error!', error)
-    })
+const addTask = async (task: TaskRequest) => {
+  try {
+    await axios.post(`${API_TASKS_ENDPOINT}`, task)
+    await getAllTasks()
+  } catch (error) {
+    console.error('Adding task error:', error)
+  }
+}
+
+const editTask = async (task: TaskRequest, taskId: number) => {
+  try {
+    await axios.put(`${API_TASKS_ENDPOINT}/${taskId}`, task)
+    await getAllTasks()
+  } catch (error) {
+    console.error(`Error updating task ${taskId}:`, error)
+  }
 }
 </script>
 
@@ -69,6 +65,11 @@ const addTask = (task: TaskRequest) => {
     <ButtonGreen title="Add task" @click="isAddModalOpen = true" />
 
     <AddTaskModal v-if="isAddModalOpen" @close="isAddModalOpen = false" @addTask="addTask" />
+    <EditTaskModal
+      v-if="editModalStore.isModalOpen"
+      @close="editModalStore.closeModal"
+      @editTask="editTask"
+    />
   </div>
 </template>
 
