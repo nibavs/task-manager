@@ -32,6 +32,11 @@ public class Task {
     @Schema(description = "Task creation date (automatically generated on the server side)", accessMode = Schema.AccessMode.READ_ONLY)
     private LocalDateTime createdAt;
 
+    @ManyToOne
+    @JoinColumn(name = "person_id", nullable = false)
+    @Schema(description = "Person who's task is it")
+    private Person person;
+
     // Date of creation setting
     @PrePersist
     public void prePersist() {
@@ -39,7 +44,6 @@ public class Task {
     }
 
     public Task() {}
-
 
     public Long getId() {
         return id;

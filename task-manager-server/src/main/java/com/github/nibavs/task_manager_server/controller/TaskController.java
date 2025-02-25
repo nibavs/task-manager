@@ -1,5 +1,7 @@
-package com.github.nibavs.task_manager_server;
+package com.github.nibavs.task_manager_server.controller;
 
+import com.github.nibavs.task_manager_server.Task;
+import com.github.nibavs.task_manager_server.TaskRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("api/tasks")
 @Tag(name = "Task", description = "Operations with tasks")
-public class Controller {
+public class TaskController {
     @Autowired
     private TaskRepository taskRepository;
 
