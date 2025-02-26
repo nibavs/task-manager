@@ -1,4 +1,4 @@
-package com.github.nibavs.task_manager_server;
+package com.github.nibavs.task_manager_server.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

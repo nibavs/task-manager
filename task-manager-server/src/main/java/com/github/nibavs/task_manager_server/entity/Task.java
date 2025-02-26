@@ -1,5 +1,6 @@
-package com.github.nibavs.task_manager_server;
+package com.github.nibavs.task_manager_server.entity;
 
+import com.github.nibavs.task_manager_server.TaskStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-package com.github.nibavs.task_manager_server;
+package com.github.nibavs.task_manager_server.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
