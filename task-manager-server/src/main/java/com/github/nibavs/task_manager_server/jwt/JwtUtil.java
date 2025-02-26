@@ -13,10 +13,9 @@ public class JwtUtil {
     // Make secret key static and from env variables
     private final SecretKey secretKey = Jwts.SIG.HS256.key().build();
 
-    private final long expirationTime = 900000; // 15 minutes
-
     public String generateToken(String username) {
         Date now = new Date();
+        long expirationTime = 900000; // 15 minutes
         Date expiryDate = new Date(now.getTime() + expirationTime);
 
         return Jwts.builder()
