@@ -1,11 +1,12 @@
 package com.github.nibavs.task_manager_server.controller;
 
-import com.github.nibavs.task_manager_server.Task;
-import com.github.nibavs.task_manager_server.TaskRepository;
+import com.github.nibavs.task_manager_server.entity.Task;
+import com.github.nibavs.task_manager_server.repository.TaskRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,10 +18,10 @@ public class TaskController {
     @Autowired
     private TaskRepository taskRepository;
 
-    @Operation(summary = "Get all tasks")
+    @Operation(summary = "Get all user's tasks")
     @GetMapping
-    public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+    public List<Task> getAllTasks(@AuthenticationPrincipal String username) {
+        return taskRepository.findAllByPerson_Login(username);
     }
 
     @Operation(summary = "Get task by ID")
@@ -59,4 +60,5 @@ public class TaskController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 }
