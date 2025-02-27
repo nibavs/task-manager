@@ -2,6 +2,7 @@ package com.github.nibavs.task_manager_server.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -11,7 +12,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
     // Make secret key static and from env variables
-    private final SecretKey secretKey = Jwts.SIG.HS256.key().build();
+    private final SecretKey secretKey = Keys.hmacShaKeyFor("aklsdjflkdsajfjhsdafjhsdafj-jhsdfajkhadskjlfhdsakjhfkjlasdhf-dsklfjlksdjaflkjlkdsdsfaf".getBytes());
 
     public String generateToken(String username) {
         Date now = new Date();
