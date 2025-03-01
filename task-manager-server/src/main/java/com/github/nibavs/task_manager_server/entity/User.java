@@ -7,27 +7,32 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "person")
-@Schema(description = "Person model")
-public class Person {
+@Table(name = "user")
+@Schema(description = "User model")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Person ID (automatically generated on the server side)", accessMode = Schema.AccessMode.READ_ONLY)
+    @Schema(description = "User ID (automatically generated on the server side)", accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
 
     @Column(unique = true, nullable = false)
-    @Schema(description = "Person's login")
-    private String login;
+    @Schema(description = "User's login")
+    private String username;
 
     @NotNull
-    @Column(name = "password_hash")
-    @Schema(description = "Hashed password")
-    private String passwordHash;
+    @Schema(description = "User's password")
+    private String password;
 
     @Schema(description = "Time of creation", accessMode = Schema.AccessMode.READ_ONLY)
     private LocalDateTime createdAt;
 
-    public Person() {}
+    @PrePersist
+    public void prePersist() {
+        createdAt = LocalDateTime.now();
+    }
+
+    public User() {//
+    }
 
     public Long getId() {
         return id;
@@ -37,20 +42,20 @@ public class Person {
         this.id = id;
     }
 
-    public @NotNull String getLogin() {
-        return login;
+    public @NotNull String getUsername() {
+        return username;
     }
 
-    public void setLogin(@NotNull String login) {
-        this.login = login;
+    public void setUsername(@NotNull String username) {
+        this.username = username;
     }
 
-    public @NotNull String getPasswordHash() {
-        return passwordHash;
+    public @NotNull String getPassword() {
+        return password;
     }
 
-    public void setPasswordHash(@NotNull String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPassword(@NotNull String password) {
+        this.password = password;
     }
 
     public @NotNull LocalDateTime getCreatedAt() {

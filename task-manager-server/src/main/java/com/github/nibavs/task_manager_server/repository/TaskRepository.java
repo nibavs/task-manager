@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    List<Task> findAllByPerson_Login(String login);
-    Optional<Task> findByIdAndPerson_Login(Long taskId, String login);
+    List<Task> findAllByUser_Username(String username);
+    Optional<Task> findByIdAndUser_Username(Long taskId, String username);
 }
