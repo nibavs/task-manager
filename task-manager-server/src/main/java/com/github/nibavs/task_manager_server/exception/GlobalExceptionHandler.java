@@ -5,18 +5,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
 
-  @ExceptionHandler(UserNotFoundException.class)
-  public ResponseEntity<Map<String, String>> handleSellerNotFound(UserNotFoundException ex) {
-    Map<String, String> response = new HashMap<>();
-    response.put("error", "Auth failed!");
-    response.put("message", ex.getMessage());
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+  @ExceptionHandler(InvalidUsernameOrPasswordException.class)
+  public ResponseEntity<String> handleInvalidUsernameOrPassword(InvalidUsernameOrPasswordException ex) {
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+  }
+
+  @ExceptionHandler(UserAlreadyExistsException.class)
+  public ResponseEntity<String> handleUserAlreadyExists(UserAlreadyExistsException ex) {
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+  }
+
+  @ExceptionHandler(TaskNotFoundException.class)
+  public ResponseEntity<String> handleUserAlreadyExists(TaskNotFoundException ex) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
   }
 }
