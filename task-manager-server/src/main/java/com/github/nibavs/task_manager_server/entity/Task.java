@@ -28,15 +28,14 @@ public class Task {
     @Schema(description = "Task status",example = "NEW", allowableValues = {"NEW", "IN_PROGRESS", "COMPLETED"})
     private TaskStatus status;
 
-
     @Column(name = "created_at", nullable = false)
     @Schema(description = "Task creation date (automatically generated on the server side)", accessMode = Schema.AccessMode.READ_ONLY)
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "person_id", nullable = false)
-    @Schema(description = "Person who's task is it")
-    private Person person;
+    @JoinColumn(name = "user_id", nullable = false)
+    @Schema(description = "User who's task is it", accessMode = Schema.AccessMode.READ_ONLY)
+    private User user;
 
     // Date of creation setting
     @PrePersist
@@ -44,7 +43,8 @@ public class Task {
         createdAt = LocalDateTime.now();
     }
 
-    public Task() {}
+    public Task() { //
+    } 
 
     public Long getId() {
         return id;
@@ -86,11 +86,11 @@ public class Task {
         this.createdAt = createdAt;
     }
 
-    public Person getPerson() {
-        return person;
+    public User getUser() {
+        return user;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
