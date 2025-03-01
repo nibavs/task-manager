@@ -25,7 +25,7 @@ public class Task {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Schema(description = "Task status",example = "NEW", allowableValues = {"NEW", "IN_PROGRESS", "COMPLETED"})
+    @Schema(description = "Task status", example = "NEW", allowableValues = {"NEW", "IN_PROGRESS", "COMPLETED"})
     private TaskStatus status;
 
     @Column(name = "created_at", nullable = false)
@@ -44,7 +44,7 @@ public class Task {
     }
 
     public Task() { //
-    } 
+    }
 
     public Long getId() {
         return id;
