@@ -5,11 +5,17 @@ This project is a task management application that allows users to add, delete, 
 
 ## UI view
 - Auth window
+  
 ![UI auth window](UI_0.png)
+
 - Main window
+  
 ![UI main window](UI_1.png)
+
 - Edit task modal window
+  
 ![UI main window](UI_2.png)
+
 
 
 ## Technologies Used
