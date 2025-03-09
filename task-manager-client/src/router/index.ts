@@ -13,8 +13,19 @@ const router = createRouter({
       path: '/',
       name: 'task-manager',
       component: () => import('../views/TaskManagerView.vue'),
+      meta: { requiresAuth: true },
     },
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = !!localStorage.getItem('token')
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    next('/auth')
+  } else {
+    next()
+  }
 })
 
 export default router

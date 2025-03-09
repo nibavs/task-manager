@@ -1,9 +1,18 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import router from '@/router'
+import axios from 'axios'
+
+const logOut = () => {
+  localStorage.removeItem('token')
+  delete axios.defaults.headers.common['Authorization']
+  router.push('/auth')
+}
+</script>
 
 <template>
   <div class="task-manager__header">
     <h1>Task Manager</h1>
-    <!-- <button class="signout-btn">SIGN OUT</button> -->
+    <button class="signout-btn" @click="logOut">SIGN OUT</button>
   </div>
 </template>
 
@@ -18,7 +27,6 @@
   font-size: 14px;
   font-weight: bold;
   border-radius: 30px;
-  padding: 0 4px;
   border: 2px solid #ff8a8a;
   color: #ff8a8a;
   background-color: #fff;

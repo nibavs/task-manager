@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
 import AddTaskModal from '@/components/AddTaskModal.vue'
 import TaskList from '@/components/TaskList.vue'
 import type { Task, TaskRequest } from '@/types'
@@ -8,8 +7,7 @@ import EditTaskModal from '@/components/EditTaskModal.vue'
 import { useEditModalStore } from '@/stores/editModal'
 import TaskManagerFooter from '@/components/TaskManagerFooter.vue'
 import TaskManagerHeader from '@/components/TaskManagerHeader.vue'
-
-const API_TASKS_ENDPOINT = import.meta.env.VITE_API_TASKS_ENPOINT
+import api from '@/utils/axiosInstance'
 
 const tasks = ref<Task[]>([])
 const isAddModalOpen = ref<boolean>(false)
@@ -21,7 +19,7 @@ onMounted(() => {
 
 const getAllTasks = async () => {
   try {
-    const response = await axios.get(API_TASKS_ENDPOINT)
+    const response = await api.get('/tasks')
     tasks.value = response.data
   } catch (error) {
     console.error('Error fetching tasks:', error)
@@ -30,7 +28,7 @@ const getAllTasks = async () => {
 
 const deleteTask = async (taskId: number) => {
   try {
-    await axios.delete(`${API_TASKS_ENDPOINT}/${taskId}`)
+    await api.delete(`tasks/${taskId}`)
     await getAllTasks()
   } catch (error) {
     console.error(`Error deleting task ${taskId}:`, error)
@@ -39,7 +37,8 @@ const deleteTask = async (taskId: number) => {
 
 const addTask = async (task: TaskRequest) => {
   try {
-    await axios.post(`${API_TASKS_ENDPOINT}`, task)
+    console.log(task)
+    await api.post(`tasks`, task)
     await getAllTasks()
   } catch (error) {
     console.error('Adding task error:', error)
@@ -48,7 +47,7 @@ const addTask = async (task: TaskRequest) => {
 
 const editTask = async (task: TaskRequest, taskId: number) => {
   try {
-    await axios.put(`${API_TASKS_ENDPOINT}/${taskId}`, task)
+    await api.put(`tasks/${taskId}`, task)
     await getAllTasks()
   } catch (error) {
     console.error(`Error updating task ${taskId}:`, error)

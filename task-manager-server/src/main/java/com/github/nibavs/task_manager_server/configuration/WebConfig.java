@@ -11,15 +11,15 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:5173")
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
     }
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-//        registry.addViewController("/login").setViewName("login");
-        registry.addViewController("/home").setViewName("home");
-//        registry.addViewController("/hello").setViewName("hello");
-    }
+//    @Override
+//    public void addViewControllers(ViewControllerRegistry registry) {
+////        registry.addViewController("/login").setViewName("login");
+//        registry.addViewController("/home").setViewName("home");
+////        registry.addViewController("/hello").setViewName("hello");
+//    }
 }

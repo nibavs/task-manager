@@ -11,3 +11,8 @@ export interface TaskRequest {
   description: string
   status: string
 }
+
+export interface Credentials {
+  username: string
+  password: string
+}
